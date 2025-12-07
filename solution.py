@@ -11,7 +11,8 @@ class Solution(ABC):
     def __init__(self, day_str: str, test: bool = False):
         super().__init__()
         input_dir = "examples" if test else "inputs"
-        with open(BASE_DIR / input_dir / f"{day_str}.txt", "r", encoding = "utf-8") as f:
+        day_num = day_str.split('_')[0]
+        with open(BASE_DIR / input_dir / f"{day_num}.txt", "r", encoding = "utf-8") as f:
             lines = f.read().splitlines()
         self.input: list[str] = lines
 
