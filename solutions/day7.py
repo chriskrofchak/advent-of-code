@@ -51,3 +51,43 @@ class Day7(Solution):
         beam, total_splits = self.generate_beam()
         return total_splits
         
+
+@register("7_2")
+class Day7Part2(Day7):
+
+    def generate_start(self, layout):
+        beam = np.array([0 if sym == '.' else 1 for sym in layout])
+        return beam
+    
+    def get_next_step(self, layout, current_step):
+        is_splitters = [0 if sym == '.' else 1 for sym in layout]
+
+        next_step = np.copy(current_step)
+        for i in range(len(layout)):
+            if is_splitters[i] and current_step[i]: # if there there is a beam and it hits the splitter
+                next_step[i] = 0
+                # split the beam if there are no blockers (spliters next to it)
+                if 0 < i and not is_splitters[i - 1]:
+                    next_step[i - 1] += current_step[i]
+                if i < len(layout) -1 and not is_splitters[i + 1]:
+                    next_step[i + 1] += current_step[i]
+
+        return np.array(next_step)
+    
+    def generate_beam(self):
+        lines = self.input
+        beam = self.generate_start(lines[0])
+
+        total_beam = [beam]
+
+        for line in lines[1:]:
+            next_beam = self.get_next_step(line, beam)
+
+            total_beam.append(next_beam)
+            beam = next_beam
+            
+        return np.array(total_beam)
+
+    def solve(self):
+        beam = self.generate_beam()
+        return beam[-1].sum()
