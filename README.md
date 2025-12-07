@@ -37,4 +37,4 @@ Base class
 Each solution:
 * Inherits from `Solution`
 * Implements a `solve(self) -> str | int` method
-* Gets raw input text via `self.raw_input`
+* Gets raw input text via `self.input`
