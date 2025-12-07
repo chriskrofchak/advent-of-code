@@ -24,7 +24,7 @@ class Day7(Solution):
                 if i < len(layout) -1 and not is_splitters[i + 1]:
                     next_step[i + 1] = 1
 
-                    splits += 1
+                splits += 1
 
         return np.array(next_step), splits
     
