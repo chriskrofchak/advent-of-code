@@ -25,34 +25,34 @@ def split_beams(prev: str, beamline: str):
 def make_newline(beamlist: list[int], beamline: str):
     return ''.join([ '|' if b == 1 and x != '^' else x for b, x in zip(beamlist, beamline) ])
 
-def split_beams_nd(prev: str, beamlines: str):
-    if len(beamlines) == 0:
-        return 1
-
-    beamline = beamlines[0]
-    lbeam, rbeam = ([ 0 for _ in beamline ], [ 0 for _ in beamline ])
+def split_beams_nd(prev: list[int], beamline: str):
+    """
+    Takes a beam line and the previous line and splits the beams
+    """
+    beamlist = [ 0 for _ in beamline ]
     for i, (p, x) in enumerate(zip(prev, beamline)):
         # base case
-        if p == 'S' or p == '|':
-            lbeam[i] = 1
-            rbeam[i] = 1 
+        if p > 0:
+            beamlist[i] += p
 
-        if p == '|' and x == '^':
+        if x == '^':
+            beamlist[i] = 0
+
             if i > 0:
-                lbeam[i - 1] = 1
+                beamlist[i - 1] += p
 
             if i < len(beamline) - 1:
-                rbeam[i + 1] = 1
+                beamlist[i + 1] += p
 
-    return split_beams_nd(make_newline(lbeam, beamline), beamlines[1:]) + split_beams_nd(make_newline(rbeam, beamline), beamlines[1:]) 
+    return beamlist
 
 @register("7_1")
 class Day7(Solution):
 
     def solve(self) -> int:
         # print(self.input)
-        # for line in self.input:
-        #     print(line)
+        for line in self.input:
+            print(line)
 
         prev = self.input[0]
         total = 0
@@ -63,18 +63,26 @@ class Day7(Solution):
             prev = newline
             outs.append(newline)
 
-        # for line in outs:
-        #     print(line)
+        for line in outs:
+            print(line)
         print(total)
         return total
-        
+
 @register("7_2")
 class Day7(Solution):
 
-    def solve(self) -> int:
-        # print(self.input)
-        # for line in self.input:
-        #     print(line)
-        return split_beams_nd(self.input[0], self.input[1:])
-        
-        
+        def solve(self) -> int:
+            # print(self.input)
+            for line in self.input:
+                print(line)
+
+            prev = [ int(x == 'S') for x in self.input[0] ]
+            outs = [prev]
+            for line in self.input[1:]:
+                prev = split_beams_nd(prev, line)
+                outs.append(prev)
+
+            for line in outs:
+                print(line)
+            print(sum(outs[-1]))
+            return sum(outs[-1])
