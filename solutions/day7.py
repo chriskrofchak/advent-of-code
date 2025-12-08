@@ -1,5 +1,7 @@
 from solution import Solution, register
-from copy import deepcopy
+
+def make_newline(beamlist: list[int], beamline: str):
+    return ''.join([ '|' if b == 1 and x != '^' else x for b, x in zip(beamlist, beamline) ])
 
 def split_beams(prev: str, beamline: str):
     """
@@ -20,10 +22,7 @@ def split_beams(prev: str, beamline: str):
             if i < len(beamline) - 1:
                 beamlist[i + 1] = 1
 
-    return splits, ''.join([ '|' if b == 1 and x != '^' else x for b, x in zip(beamlist, beamline) ])
-
-def make_newline(beamlist: list[int], beamline: str):
-    return ''.join([ '|' if b == 1 and x != '^' else x for b, x in zip(beamlist, beamline) ])
+    return splits, make_newline(beamlist, beamline)
 
 def split_beams_nd(prev: list[int], beamline: str):
     """
@@ -50,10 +49,6 @@ def split_beams_nd(prev: list[int], beamline: str):
 class Day7(Solution):
 
     def solve(self) -> int:
-        # print(self.input)
-        for line in self.input:
-            print(line)
-
         prev = self.input[0]
         total = 0
         outs = [self.input[0]]
@@ -69,20 +64,13 @@ class Day7(Solution):
         return total
 
 @register("7_2")
-class Day7(Solution):
+class Day7Part2(Solution):
 
         def solve(self) -> int:
-            # print(self.input)
-            for line in self.input:
-                print(line)
-
             prev = [ int(x == 'S') for x in self.input[0] ]
-            outs = [prev]
+
             for line in self.input[1:]:
                 prev = split_beams_nd(prev, line)
-                outs.append(prev)
-
-            for line in outs:
-                print(line)
-            print(sum(outs[-1]))
-            return sum(outs[-1])
+    
+            print(sum(prev))
+            return sum(prev)
