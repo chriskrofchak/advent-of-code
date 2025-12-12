@@ -27,7 +27,7 @@ class Day1(Solution):
 
 
 @register("1_2")
-class Day1_2(Solution):
+class Day1Part2(Solution):
     def __init__(self, day_str, test = False):
         super().__init__(day_str, test)
         self.ticker: int

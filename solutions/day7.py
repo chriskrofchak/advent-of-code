@@ -66,11 +66,11 @@ class Day7(Solution):
 @register("7_2")
 class Day7Part2(Solution):
 
-        def solve(self) -> int:
-            prev = [ int(x == 'S') for x in self.input[0] ]
+    def solve(self) -> int:
+        prev = [ int(x == 'S') for x in self.input[0] ]
 
-            for line in self.input[1:]:
-                prev = split_beams_nd(prev, line)
+        for line in self.input[1:]:
+            prev = split_beams_nd(prev, line)
     
-            print(sum(prev))
-            return sum(prev)
+        print(sum(prev))
+        return sum(prev)

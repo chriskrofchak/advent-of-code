@@ -15,6 +15,7 @@ class Solution(ABC):
         with open(BASE_DIR / input_dir / f"{day_num}.txt", "r", encoding = "utf-8") as f:
             lines = f.read().splitlines()
         self.input: list[str] = lines
+        self.test: bool = test
 
     @abstractmethod
     def solve(self):

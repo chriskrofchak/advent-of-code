@@ -39,7 +39,7 @@ def battery_str_n(n: int, line: str):
     return f'{l}{battery_str_n(n - 1, line[line.find(l)+1:])}'
 
 @register("3_2")
-class Day3(Solution):
+class Day3Part3(Solution):
     def solve(self):
         print(self.input)
         for line in self.input:
